@@ -1,0 +1,136 @@
+openapi: 3.0.1
+info:
+  title: Swagger Zombie
+  contact:
+    email: apiteam@swagger.io
+  version: 1.0.0
+servers:
+  - url: https://localhost:3000/api/v1
+tags:
+  - name: zombies
+    description: Everything about your Zombies
+paths:
+  /zombies:
+    get:
+      tags:
+        - zombies
+      summary: Get zombies
+      operationId: getZombies
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Zombie'
+    
+  /zombie/{id}:
+      get:
+        tags:
+          - zombies
+        summary: Get zombie
+        operationId: getZombie
+        parameters:
+          - name: zombieId
+            in: path
+            description: ID of zombie to return
+            required: true
+            schema:
+              type: integer
+              format: int64
+        responses:
+          200:
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/Zombie'
+      
+      post:
+        tags:
+          - zombies
+        summary: Post zombie
+        operationId: postZombie
+        parameters:
+          - name: zombieId
+            in: path
+            description: ID of zombie to return
+            required: true
+            schema:
+              type: integer
+              format: int64
+        responses:
+          200:
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/ApiResponse'
+
+      put:
+        tags:
+          - zombies
+        summary: Put zombie
+        operationId: postZombie
+        parameters:
+          - name: zombieId
+            in: path
+            description: ID of zombie to return
+            required: true
+            schema:
+              type: integer
+              format: int64
+        responses:
+          200:
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/ApiResponse'
+
+      delete:
+        tags:
+          - zombies
+        summary: Delete zombie
+        operationId: deleteZombie
+        parameters:
+          - name: zombieId
+            in: path
+            description: ID of zombie to return
+            required: true
+            schema:
+              type: integer
+              format: int64
+        responses:
+          200:
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/ApiResponse'
+components:
+  schemas:
+    Zombie:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Zombie 1
+        creationDate:
+          type: string
+          example: '2020-03-12'
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: OK

@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  zombie-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # env_file:
+    #   - ./env
+    ports:
+      - ${ZOMBIE_API_PORT}:${ZOMBIE_API_PORT}
+    depends_on:
+      - mongo
+      - mongo-express
+      - redis
+  
+  mongo:
+    image: mongo
+    restart: always
+    # env_file:
+    #   - ./env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+  
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - ${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}
+    # env_file:
+    #   - ./env
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:${MONGO_PORT}/
+    depends_on:
+      - mongo
+
+  redis:
+    # image: redis:6.2-alpine
+    image: redis
+    restart: always
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    # env_file:
+    #   - ./env
+    command: redis-server --save 20 1 --loglevel warning --requirepass pwd
+    volumes: 
+      - cache:/data
+volumes:
+  cache:
+    driver: local

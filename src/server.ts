@@ -37,4 +37,5 @@ const start = () => {
         app.log.info('Registered plugins');
     });
 };
+
 start();
