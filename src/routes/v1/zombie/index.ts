@@ -44,6 +44,14 @@ export default async (fastify: FastifyInstance): Promise<void> => {
         Controller.getItems
     );
 
+    fastify.get<any>(
+        '/:id/items/calculate',
+        {
+            schema: getItemsSchema()
+        },
+        Controller.calculateItems
+    );
+
     fastify.post<any>(
         '/:id/items',
         {

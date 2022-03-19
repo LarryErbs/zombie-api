@@ -1,3 +1,4 @@
+import { NbpClient } from '../../common/services/clients/nbp-client';
 import { executeLogic } from '../../common/helpers/databse-unit-of-work';
 import { Item } from '../../common/mongo/entities/item';
 import { ZombieRepository } from '../../common/repositories/zombie-repository';
@@ -5,6 +6,7 @@ import { hasEqualName, hasMoreItemsThanFive, hasNoItems } from './helpers/items-
 import { mapToItem, mapToItemViewModel } from './mapper/mappers';
 import { ItemDto } from './model/item-dto';
 import { ParamsRequestDto } from './model/params-request-dto';
+import { CurrencyService } from '../../common/services/currency-service';
 
 export class ZombieItems {
     private zombieRepository!: ZombieRepository;
@@ -19,6 +21,19 @@ export class ZombieItems {
             if (!result) throw new Error(`Zombie with given id ${id} was not found`);
 
             return result.items.map(mapToItemViewModel);
+        });
+    };
+
+    public calculateItems = async ({ id }: ParamsRequestDto): Promise<any[]> => {
+        return executeLogic(async () => {
+            const result = await this.zombieRepository.findOne(id);
+            if (!result) throw new Error(`Zombie with given id ${id} was not found`);
+
+            const nbpClient = new NbpClient();
+            const currencies = await nbpClient.getCurrencies();
+            const currencyService = new CurrencyService();
+            const filteredCurrencies = await currencyService.getCurrencies(['USD', 'EUR'], currencies[0]);
+            return await currencyService.calculate(result.items, filteredCurrencies);
         });
     };
 

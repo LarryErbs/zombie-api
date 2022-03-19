@@ -30,6 +30,11 @@ export const getItems = async ({ params }: FastifyRequest, reply: FastifyReply):
     reply.send(result);
 };
 
+export const calculateItems = async ({ params }: FastifyRequest, reply: FastifyReply): Promise<void> => {
+    const result = await new ZombieItems().calculateItems(params as ParamsRequestDto);
+    reply.send(result);
+};
+
 export const addItems = async ({ params, body }: FastifyRequest, reply: FastifyReply): Promise<void> => {
     const result = await new ZombieItems().addItems(params as ParamsRequestDto, body as ItemDto[]);
     reply.send(result);
