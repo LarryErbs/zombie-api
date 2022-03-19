@@ -28,7 +28,7 @@ export class BaseRepository<T> implements IBaseRepository<T> {
     };
 
     updateOne = async <K>(id: string, model: K): Promise<void> => {
-        console.log(await this.model.updateOne({ _id: id }, model));
+        await this.model.updateOne({ _id: id }, model);
     };
 
     delete = async (id: string): Promise<void> => {

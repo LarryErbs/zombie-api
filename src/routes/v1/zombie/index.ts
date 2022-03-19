@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FastifyInstance } from 'fastify';
-import { deleteZombieSchema, getZombiesSchema, postZombieSchema, putZombieSchema } from './schema';
+import { addItemsSchema, deleteZombieSchema, getZombiesSchema, postZombieSchema, putZombieSchema, removeItemsSchema } from './schema';
 import * as Controller from './controller';
 
 export default async (fastify: FastifyInstance): Promise<void> => {
@@ -37,10 +37,18 @@ export default async (fastify: FastifyInstance): Promise<void> => {
     );
 
     fastify.post<any>(
-        '/items/:id',
+        '/:id/items',
         {
-            schema: postZombieSchema()
+            schema: addItemsSchema()
         },
-        Controller.post
+        Controller.addItems
+    );
+
+    fastify.patch<any>(
+        '/:id/items',
+        {
+            schema: removeItemsSchema()
+        },
+        Controller.removeItems
     );
 };

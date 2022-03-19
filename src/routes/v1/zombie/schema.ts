@@ -15,7 +15,7 @@ export const postZombieSchema = (): FastifySchema => {
             type: 'object',
             required: ['name'],
             properties: {
-                name: { type: 'string' }
+                name: { type: 'string' },
             },
         },
     };
@@ -43,3 +43,24 @@ export const deleteZombieSchema = (): FastifySchema => {
         },
     };
 };
+
+export const addItemsSchema = (): FastifySchema => {
+    return {
+        params: {
+            id: { type: 'string' },
+        },
+        body: {
+            type: 'array',
+            items: {
+                type: 'object',
+                required: ['name', 'value'],
+                properties: {
+                    name: { type: 'string' },
+                    value: { type: 'number' },
+                },
+            }
+        },
+    };
+};
+
+export const removeItemsSchema = addItemsSchema

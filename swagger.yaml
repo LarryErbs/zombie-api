@@ -47,27 +47,6 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ApiResponse'
     
-    # put:
-    #     tags:
-    #       - zombies
-    #     summary: Put zombie
-    #     operationId: postZombie
-    #     requestBody:
-    #       description: Zombie object that needs to be added to the store
-    #       content:
-    #         application/json:
-    #           schema:
-    #             $ref: '#/components/schemas/Zombie'
-    #       required: true
-    #     responses:
-    #       200:
-    #         description: successful operation
-    #         content:
-    #           application/json:
-    #             schema:
-    #               type: object
-    #               $ref: '#/components/schemas/ApiResponse'
-    
   /zombie/{zombieId}:
       get:
         tags:
@@ -137,6 +116,66 @@ paths:
                 schema:
                   type: object
                   $ref: '#/components/schemas/ApiResponse'
+  /zombie/{zombieId}/items:
+    post:
+      tags:
+        - zombies
+      summary: Post zombie items
+      operationId: postZombieItems
+      parameters:
+        - name: zombieId
+          in: path
+          description: ID of zombie to return
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Zombie object that needs to be added to the store
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Item'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ApiResponse'
+    patch:
+      tags:
+        - zombies
+      summary: Remove zombie items
+      operationId: patchZombieItems
+      parameters:
+        - name: zombieId
+          in: path
+          description: ID of zombie to return
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Zombie object that needs to be added to the store
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Item'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ApiResponse'
+
 components:
   schemas:
     Zombie:
@@ -148,6 +187,17 @@ components:
         creationDate:
           type: string
           example: '2020-03-12'
+
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Item 1
+        value:
+          type: number
+          example: 7
+
     ApiResponse:
       type: object
       properties:
