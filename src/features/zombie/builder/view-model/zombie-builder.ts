@@ -1,6 +1,7 @@
 import { BaseBuilder } from '../../../../common/base-builder';
+import { Item } from '../../../../common/mongo/entities/item';
 import { Zombie } from '../../../../common/mongo/entities/zombie';
-import { ZombieViewModel } from '../../model/view-model/zombie-view-model';
+import { ItemViewModel, ZombieViewModel } from '../../model/view-model/zombie-view-model';
 
 export class ZombieBuilder extends BaseBuilder<ZombieViewModel> {
     private zombie: Zombie;
@@ -13,5 +14,15 @@ export class ZombieBuilder extends BaseBuilder<ZombieViewModel> {
     build(): void {
         this.result.name = this.zombie.name;
         this.result.creationDate = this.zombie.creationDate;
+        this.result.items = this.buildItems(this.zombie.items)
+    }
+
+    buildItems(items: Item[]): ItemViewModel[] {
+        return items.map(({ name, value }) => {
+            return {
+                name: name,
+                value: value,
+            };
+        });
     }
 }

@@ -1,12 +1,12 @@
 import { FastifySchema } from 'fastify';
 
+const paramsRequest = {
+    id: { type: 'string' },
+};
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const getZombiesSchema = (): FastifySchema => {
-    return {
-        // body: {
-        //     type: ''
-        // }
-    };
+    return {};
 };
 
 export const postZombieSchema = (): FastifySchema => {
@@ -23,9 +23,7 @@ export const postZombieSchema = (): FastifySchema => {
 
 export const putZombieSchema = (): FastifySchema => {
     return {
-        params: {
-            id: { type: 'string' },
-        },
+        params: paramsRequest,
         body: {
             type: 'object',
             properties: {
@@ -38,17 +36,19 @@ export const putZombieSchema = (): FastifySchema => {
 
 export const deleteZombieSchema = (): FastifySchema => {
     return {
-        params: {
-            id: { type: 'string' },
-        },
+        params: paramsRequest,
+    };
+};
+
+export const getItemsSchema = (): FastifySchema => {
+    return {
+        params: paramsRequest,
     };
 };
 
 export const addItemsSchema = (): FastifySchema => {
     return {
-        params: {
-            id: { type: 'string' },
-        },
+        params: paramsRequest,
         body: {
             type: 'array',
             items: {
