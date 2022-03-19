@@ -11,10 +11,10 @@ export default {
     password: 'admin',
     migrationsRun: true,
     dropSchema: false,
-    entities: [path.join(__dirname, '..', 'entities', '**', '*.*'), path.join(__dirname, '..', 'entities', '*.*')],
+    entities: [path.join(__dirname, 'entities', '**', '*.*'), path.join(__dirname, 'entities', '*.*')],
     migrations: [path.join(__dirname, 'migrations', '*.*')],
     cli: {
-        entitiesDir: path.join(__dirname, '..', 'entities'),
+        entitiesDir: path.join(__dirname, 'entities'),
         migrationsDir: path.join(__dirname, 'migrations'),
     },
     

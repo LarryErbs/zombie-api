@@ -20,7 +20,7 @@ export default async (fastify: FastifyInstance): Promise<void> => {
     );
 
     fastify.put<any>(
-        '/:id',
+        '/',
         {
             schema: putZombieSchema()
         },

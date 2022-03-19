@@ -1,10 +1,9 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ObjectIdColumn } from 'typeorm';
 
 @Entity()
 export class Zombie {
-
-    @PrimaryGeneratedColumn('uuid')
-    id!: number;
+    @ObjectIdColumn()
+    id!: string;
 
     @Column()
     name!: string;
