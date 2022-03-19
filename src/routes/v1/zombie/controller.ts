@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { CrudZombie } from '../../../features/zombie/crud-zombie';
-import { ParamsRequestDto } from '../../../features/zombie/models/params-request-dto';
-import { ZombieDto } from '../../../features/zombie/models/zombie-dto';
+import { ParamsRequestDto } from '../../../features/zombie/model/params-request-dto';
+import { ZombieDto } from '../../../features/zombie/model/zombie-dto';
 
 export const get = async (req: FastifyRequest, reply: FastifyReply): Promise<void> => {
     const result = await new CrudZombie().getZombies();
@@ -13,8 +13,8 @@ export const post = async ({ body }: FastifyRequest, reply: FastifyReply): Promi
     reply.send(result);
 };
 
-export const put = async ({ body }: FastifyRequest, reply: FastifyReply): Promise<void> => {
-    const result = await new CrudZombie().updateZombie(body as ZombieDto);
+export const put = async ({ body, params }: FastifyRequest, reply: FastifyReply): Promise<void> => {
+    const result = await new CrudZombie().updateZombie(params as ParamsRequestDto, body as ZombieDto);
     reply.send(result);
 };
 

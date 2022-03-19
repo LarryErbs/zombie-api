@@ -21,7 +21,7 @@ export default async (fastify: FastifyInstance): Promise<void> => {
     );
 
     fastify.put<any>(
-        '/',
+        '/:id',
         {
             schema: putZombieSchema()
         },
@@ -34,5 +34,13 @@ export default async (fastify: FastifyInstance): Promise<void> => {
             schema: deleteZombieSchema()
         },
         Controller.del
+    );
+
+    fastify.post<any>(
+        '/items/:id',
+        {
+            schema: postZombieSchema()
+        },
+        Controller.post
     );
 };

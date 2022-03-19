@@ -1,5 +1,5 @@
 export interface ZombieDto {
-    _id: string;
+    // id: string;
     name: string;
-    creationDate: string;
+    creationDate?: string;
 }

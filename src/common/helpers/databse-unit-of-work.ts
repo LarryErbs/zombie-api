@@ -1,6 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MongoDbClient } from '../mongo/mongo-client';
-import { IUnitOfWork } from './unit-of-work-factory';
+import { IUnitOfWork, UnitOfWorkFactory, UnitOfWorkType } from './unit-of-work-factory';
+
+export const executeLogic = async (fun: () => any) => {
+    const unitOfWork = await UnitOfWorkFactory.makeUnitOfWork(UnitOfWorkType.TYPE_DATABASE);
+    await unitOfWork.start();
+
+    const work = async () => {
+        return fun();
+    };
+
+    return unitOfWork.execute(work);
+};
 
 export class DatabaseUnitOfWork implements IUnitOfWork {
     private databaseClient!: MongoDbClient;

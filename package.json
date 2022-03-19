@@ -50,6 +50,7 @@
     "fastify-swagger": "^5.0.0",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "mongoose": "^6.2.7",
     "pino-pretty": "^7.5.4",
     "rimraf": "^3.0.2",

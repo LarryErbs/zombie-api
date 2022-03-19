@@ -1,6 +1,6 @@
 import { BaseBuilder } from '../../../../common/base-builder';
 import { Zombie } from '../../../../common/mongo/entities/zombie';
-import { ZombieViewModel } from '../../models/view-model/zombie-view-model';
+import { ZombieViewModel } from '../../model/view-model/zombie-view-model';
 
 export class ZombieBuilder extends BaseBuilder<ZombieViewModel> {
     private zombie: Zombie;

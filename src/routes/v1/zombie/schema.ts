@@ -13,10 +13,9 @@ export const postZombieSchema = (): FastifySchema => {
     return {
         body: {
             type: 'object',
-            required: ['name', 'creationDate'],
+            required: ['name'],
             properties: {
-                name: { type: 'string' },
-                creationDate: { type: 'string' },
+                name: { type: 'string' }
             },
         },
     };
