@@ -12,6 +12,7 @@ interface Config {
         username: string;
         password: string;
         serviceName: string;
+        databaseName: string;
         authDatabase: string;
         express: {
             port: number;
@@ -51,6 +52,7 @@ const config: Config = {
         username: envVars.MONGO_INITDB_ROOT_USERNAME,
         password: envVars.MONGO_INITDB_ROOT_PASSWORD,
         serviceName: envVars.MONGO_SERVICE_NAME,
+        databaseName: envVars.MONGO_INITDB_DATABASE,
         authDatabase: envVars.MONGO_AUTH_DATABASE,
         express: {
             port: envVars.MONGO_EXPRESS_PORT,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FastifyInstance } from 'fastify';
 import { deleteZombieSchema, getZombiesSchema, postZombieSchema, putZombieSchema } from './schema';
 import * as Controller from './controller';

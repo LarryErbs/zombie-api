@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UnitOfWorkFactory, UnitOfWorkType } from '../../common/helpers/unit-of-work-factory';
-import { Zombie } from '../../common/mongo/entities/zombie';
 import { ZombieRepository } from '../../common/repositories/zombie-repository';
-import { ParamsRequest } from './models/params-request';
+import { ZombieBuilder } from './builder/view-model/zombie-builder';
+import { ZombieDbBuilder } from './builder/zombie-db-builder';
+import { ParamsRequestDto } from './models/params-request-dto';
+import { ZombieViewModel } from './models/view-model/zombie-view-model';
+import { ZombieDto } from './models/zombie-dto';
 
 const executeLogic = async (fun: () => any) => {
     const unitOfWork = await UnitOfWorkFactory.makeUnitOfWork(UnitOfWorkType.TYPE_DATABASE);
@@ -21,19 +24,39 @@ export class CrudZombie {
     constructor() {
         this.zombieRepository = new ZombieRepository();
     }
-    public async getZombies(): Promise<Zombie[]> {
-        return executeLogic(this.zombieRepository.find);
+
+    public async getZombies(): Promise<ZombieViewModel[]> {
+        return executeLogic(async () => {
+            const result = await this.zombieRepository.find();
+            return Promise.all(
+                result.map((x) => {
+                    const builder = new ZombieBuilder(x);
+                    builder.build();
+                    return builder.getResult();
+                }),
+            );
+        });
     }
 
-    public async addZombie(model: Zombie): Promise<Zombie> {
-        return executeLogic(() => this.zombieRepository.insert(model));
+    public async addZombie(model: ZombieDto): Promise<ZombieViewModel> {
+        return executeLogic(async () => {
+            const builder = new ZombieDbBuilder(model);
+            builder.build();
+            const result = await this.zombieRepository.insert(await builder.getResult());
+            return result;
+        });
     }
 
-    public async updateZombie(model: Zombie): Promise<void> {
-        return executeLogic(() => this.zombieRepository.save(model));
+    public async updateZombie(model: ZombieDto): Promise<void> {
+        return executeLogic(async () => {
+            const builder = new ZombieDbBuilder(model);
+            builder.build();
+            const result = await builder.getResult();
+            await this.zombieRepository.save(result._id, result);
+        });
     }
 
-    public async deleteZombie({ id }: ParamsRequest): Promise<void> {
-        return executeLogic(() => this.zombieRepository.delete(id));
+    public async deleteZombie({ id }: ParamsRequestDto): Promise<void> {
+        return executeLogic(async () => this.zombieRepository.delete(id));
     }
 }

@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 export interface IBaseRepository<T> {
     insert(model: T): Promise<T>;
     find(): Promise<T[]>;
-    save(model: T): Promise<void>;
+    save(id: string, model: T): Promise<void>;
     delete(id: string): Promise<void>;
 }
 
@@ -22,11 +22,11 @@ export class BaseRepository<T> implements IBaseRepository<T> {
         return this.model.find();
     }
 
-    save = async (model: T): Promise<void> => {
-        await new this.model(model).save();
+    save = async (id: string, model: T): Promise<void> => {
+        await this.model.updateOne({ _id: id }, model);
     }
 
     delete = async (id: string): Promise<void> => {
-        await this.model.deleteOne({ id });
+        await this.model.deleteOne({ _id: id });
     }
 }

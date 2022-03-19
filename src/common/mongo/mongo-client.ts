@@ -7,8 +7,7 @@ import { Deferred } from './deferred';
 import config from '../../config/config';
 
 const createConnectionString = (): string => {
-    // return `mongodb://${config.mongo.username}:${config.mongo.password}@${config.mongo.serviceName}:${config.mongo.port}/${config.mongo.authDatabase}`;
-    return `mongodb://${config.mongo.username}:${config.mongo.password}@localhost:${config.mongo.port}/zombie?authSource=admin`;
+    return `mongodb://${config.mongo.username}:${config.mongo.password}@${config.mongo.serviceName}:${config.mongo.port}/${config.mongo.databaseName}?authSource=${config.mongo.authDatabase}`;
 }
 
 export class MongoDbClient extends EventEmitter {
@@ -26,7 +25,6 @@ export class MongoDbClient extends EventEmitter {
         this.deferredDb = new Deferred<Db>()
         this.db = this.deferredDb.promise;
         this.uri = createConnectionString();
-        console.log(this.uri);
     }
 
     public async close(): Promise<void> {
