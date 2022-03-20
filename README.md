@@ -25,18 +25,28 @@ https://api.nbp.pl/api/exchangerates/tables/a/
 
 Do sprawdzenia czy są cachowane dane w `Redis` można użyć polecenia `redis-cli -a 123 --scan` w środku kontenera
 
-# FYI
+## FYI
 
 Co do tego punktu
 ```
 We use an external item exchange for our zombie (we pay for every request), the prices of items on the exchange are updated daily at 00:00 UTC and are in Polish zlotys.
 ```
 Nie byłem pewny w jaki sposób ma być to rozwiązane, więc pozwoliłem sobie na własną interpretacje :)
+## PATCH | /zombie/{zombieId}/items/exchange
 
-Rzeczy, które są jeszcze do zrobienia, ale zabrało czasu:
+Endpoint umożliwia wymianę itemu dla danego zombie na jeden z dostępnych w udostępnionym przez was API. Przez to, że dane są aktualizowane raz na dzień oraz każdy request jest płatny to zastosowałem cachowanie itemów na podstawie nazwy itemu. Czas przez jaki dane są zcachowane jest wyliczany na podstawie `rożnicy między północą, a godziną requestu`.
+
+Komunikat wejściowy
+```
+{
+  "itemToExchange": "Elytra",
+  "itemToGet": "Trident"
+}
+```
+
+
+> Rzeczy, które są jeszcze do zrobienia, ale zabrało czasu:
 > * testy
 > * obsługa błędów
 > * logowowanie
-> * bardziej obszerna dokumentacja :)
-
-
+> * bardziej obszerna i szczegółowa dokumentacja :)
