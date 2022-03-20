@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash';
 import { CalculatedResponse } from '../../features/zombie/model/view-model/currency-view-model';
 import { Item } from '../mongo/entities/item';
-import { CurrencyResponse, RateInfo } from './clients/models/currencies-response';
+import { CurrencyResponse, RateInfo } from './clients/nbp/models/currencies-response';
 
 export class CurrencyService {
     async getCurrencies(currencyCode: string[], { rates }: CurrencyResponse): Promise<RateInfo[]> {

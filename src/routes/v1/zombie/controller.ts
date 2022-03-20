@@ -1,4 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { ExchangeItems } from '../../../features/items/exchange';
+import { ExchangeDto } from '../../../features/items/model/exchange-dto';
 import { CrudZombie } from '../../../features/zombie/crud-zombie';
 import { ItemDto } from '../../../features/zombie/model/item-dto';
 import { ParamsRequestDto } from '../../../features/zombie/model/params-request-dto';
@@ -42,5 +44,10 @@ export const addItems = async ({ params, body }: FastifyRequest, reply: FastifyR
 
 export const removeItems = async ({ params, body }: FastifyRequest, reply: FastifyReply): Promise<void> => {
     const result = await new ZombieItems().removeItems(params as ParamsRequestDto, body as ItemDto[]);
+    reply.send(result);
+};
+
+export const exchangeItem = async ({ params, body }: FastifyRequest, reply: FastifyReply): Promise<void> => {
+    const result = await new ExchangeItems().exchange(params as ParamsRequestDto, body as ExchangeDto);
     reply.send(result);
 };

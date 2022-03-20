@@ -1,4 +1,4 @@
-import { NbpClient } from '../../common/services/clients/nbp-client';
+import { NbpClient } from '../../common/services/clients/nbp/nbp-client';
 import { executeLogic } from '../../common/helpers/databse-unit-of-work';
 import { Item } from '../../common/mongo/entities/item';
 import { ZombieRepository } from '../../common/repositories/zombie-repository';
@@ -9,7 +9,14 @@ import { ParamsRequestDto } from './model/params-request-dto';
 import { CurrencyService } from '../../common/services/currency-service';
 import { CalculatedResponse } from './model/view-model/currency-view-model';
 
-export class ZombieItems {
+interface IZombieItems {
+    getItems({ id }: ParamsRequestDto): Promise<ZombieItems[]>
+    calculateItems({ id }: ParamsRequestDto): Promise<CalculatedResponse[]>
+    addItems({ id }: ParamsRequestDto, items: ItemDto[]): Promise<void>
+    removeItems({ id }: ParamsRequestDto, items: ItemDto[]): Promise<void>
+}
+
+export class ZombieItems implements IZombieItems {
     private zombieRepository!: ZombieRepository;
 
     constructor() {

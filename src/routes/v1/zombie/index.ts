@@ -1,70 +1,87 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FastifyInstance } from 'fastify';
-import { addItemsSchema, deleteZombieSchema, getItemsSchema, getZombiesSchema, postZombieSchema, putZombieSchema, removeItemsSchema } from './schema';
+import {
+    addItemsSchema,
+    deleteZombieSchema,
+    exchangeItemSchema,
+    getItemsSchema,
+    getZombiesSchema,
+    postZombieSchema,
+    putZombieSchema,
+    removeItemsSchema,
+} from './schema';
 import * as Controller from './controller';
 
 export default async (fastify: FastifyInstance): Promise<void> => {
     fastify.get(
         '/',
         {
-            schema: getZombiesSchema()
+            schema: getZombiesSchema(),
         },
-        Controller.get
+        Controller.get,
     );
 
     fastify.post<any>(
         '/',
         {
-            schema: postZombieSchema()
+            schema: postZombieSchema(),
         },
-        Controller.post
+        Controller.post,
     );
 
     fastify.put<any>(
         '/:id',
         {
-            schema: putZombieSchema()
+            schema: putZombieSchema(),
         },
-        Controller.put
+        Controller.put,
     );
 
     fastify.delete(
         '/:id',
         {
-            schema: deleteZombieSchema()
+            schema: deleteZombieSchema(),
         },
-        Controller.del
+        Controller.del,
     );
 
     fastify.get<any>(
         '/:id/items',
         {
-            schema: getItemsSchema()
+            schema: getItemsSchema(),
         },
-        Controller.getItems
+        Controller.getItems,
     );
 
     fastify.get<any>(
         '/:id/items/calculate',
         {
-            schema: getItemsSchema()
+            schema: getItemsSchema(),
         },
-        Controller.calculateItems
+        Controller.calculateItems,
     );
 
     fastify.post<any>(
         '/:id/items',
         {
-            schema: addItemsSchema()
+            schema: addItemsSchema(),
         },
-        Controller.addItems
+        Controller.addItems,
     );
 
     fastify.patch<any>(
         '/:id/items',
         {
-            schema: removeItemsSchema()
+            schema: removeItemsSchema(),
         },
-        Controller.removeItems
+        Controller.removeItems,
+    );
+
+    fastify.patch<any>(
+        '/:id/items/exchange',
+        {
+            schema: exchangeItemSchema(),
+        },
+        Controller.exchangeItem,
     );
 };

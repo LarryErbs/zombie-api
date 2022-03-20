@@ -58,9 +58,23 @@ export const addItemsSchema = (): FastifySchema => {
                     name: { type: 'string' },
                     value: { type: 'number' },
                 },
-            }
+            },
         },
     };
 };
 
-export const removeItemsSchema = addItemsSchema
+export const removeItemsSchema = addItemsSchema;
+
+export const exchangeItemSchema = (): FastifySchema => {
+    return {
+        params: paramsRequest,
+        body: {
+            type: 'object',
+            required: ['itemToExchange', 'itemToGet'],
+            properties: {
+                itemToExchange: { type: 'string' },
+                itemToGet: { type: 'string' },
+            },
+        },
+    };
+};

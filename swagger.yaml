@@ -137,7 +137,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ApiResponse'
+                  $ref: '#/components/schemas/Item'
 
     post:
       tags:
@@ -219,7 +219,37 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ApiResponse'
+                  $ref: '#/components/schemas/CalculationResponse'
+
+  /zombie/{zombieId}/items/exchange:
+    patch:
+      tags:
+        - zombies
+      summary: Exchange zombie items
+      operationId: exchangeZombieItems
+      parameters:
+        - name: zombieId
+          in: path
+          description: ID of zombie to return
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Zombie object that needs to be added to the store
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/ExchangeRequest'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ApiResponse'
 components:
   schemas:
     Zombie:
@@ -241,6 +271,26 @@ components:
         value:
           type: number
           example: 7
+
+    CalculationResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: USD
+        total:
+          type: number
+          example: 24
+
+    ExchangeRequest:
+      type: object
+      properties:
+        itemToExchange:
+          type: string
+          example: Elytra
+        itemToGet:
+          type: string
+          example: Trident
 
     ApiResponse:
       type: object

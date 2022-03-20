@@ -7,7 +7,14 @@ import { ParamsRequestDto } from './model/params-request-dto';
 import { ZombieViewModel } from './model/view-model/zombie-view-model';
 import { ZombieDto } from './model/zombie-dto';
 
-export class CrudZombie {
+interface ICrudZombie {
+    getZombies(): Promise<ZombieViewModel[]>;
+    addZombie(model: ZombieDto): Promise<ZombieViewModel>;
+    updateZombie({ id }: ParamsRequestDto, model: ZombieDto): Promise<void>;
+    deleteZombie({ id }: ParamsRequestDto): Promise<void>;
+}
+
+export class CrudZombie implements ICrudZombie {
     private zombieRepository!: ZombieRepository;
 
     constructor() {
