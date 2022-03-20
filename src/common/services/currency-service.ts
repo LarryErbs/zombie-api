@@ -15,7 +15,7 @@ export class CurrencyService {
             });
     }
 
-    async calculate(items: Item[], rates: RateInfo[]): Promise<any> {
+    async calculate(items: Item[], rates: RateInfo[]): Promise<CalculatedResponse[]> {
         const sum = items.map(({ value }) => value).reduce((previous, current) => previous + current);
         const result = rates.map((rate) => mapRate(rate, sum));
 

@@ -7,6 +7,7 @@ import { mapToItem, mapToItemViewModel } from './mapper/mappers';
 import { ItemDto } from './model/item-dto';
 import { ParamsRequestDto } from './model/params-request-dto';
 import { CurrencyService } from '../../common/services/currency-service';
+import { CalculatedResponse } from './model/view-model/currency-view-model';
 
 export class ZombieItems {
     private zombieRepository!: ZombieRepository;
@@ -24,7 +25,7 @@ export class ZombieItems {
         });
     };
 
-    public calculateItems = async ({ id }: ParamsRequestDto): Promise<any[]> => {
+    public calculateItems = async ({ id }: ParamsRequestDto): Promise<CalculatedResponse[]> => {
         return executeLogic(async () => {
             const result = await this.zombieRepository.findOne(id);
             if (!result) throw new Error(`Zombie with given id ${id} was not found`);

@@ -9,12 +9,8 @@ const plugin: FastifyPluginCallback<Record<string, unknown>> = async (fastify: F
         routePrefix: '/swagger',
         exposeRoute: true,
         specification: {
-            path: './swagger.yaml',
+            path: './build/swagger.yaml',
             postProcessor: (swaggerObject: any) => {
-                // swaggerObject.host = '0.0.0.0';
-                // swaggerObject.info.version = 1;
-                // swaggerObject.schemas = ['http'];
-
                 return swaggerObject;
             },
         },

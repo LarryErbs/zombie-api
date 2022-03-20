@@ -20,6 +20,8 @@ interface Config {
     },
     redis: {
         port: number;
+        host: string;
+        password: string;
     }
 }
 
@@ -34,6 +36,8 @@ const envVarsSchema = joi
         MONGO_PORT: joi.number().default(27017),
         MONGO_EXPRESS_PORT: joi.number().default(8081),
         REDIS_PORT: joi.number().default(6379),
+        REDIS_HOST: joi.string().required(),
+        REDIS_PASSWORD: joi.string().required(),
     })
     .unknown()
     .required();
@@ -60,6 +64,8 @@ const config: Config = {
     },
     redis: {
         port: envVars.REDIS_PORT,
+        host: envVars.REDIS_HOST,
+        password: envVars.REDIS_PASSWORD,
     }
 }
 

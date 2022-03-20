@@ -1,6 +1,6 @@
 import { fastify } from 'fastify';
 import autoload from 'fastify-autoload';
-import { join } from 'path/posix';
+import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 const start = () => {

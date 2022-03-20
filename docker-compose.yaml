@@ -4,8 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # env_file:
-    #   - ./env
+    env_file:
+      - .env
     ports:
       - ${ZOMBIE_API_PORT}:${ZOMBIE_API_PORT}
     depends_on:
@@ -16,22 +16,20 @@ services:
   mongo:
     image: mongo
     restart: always
-    # env_file:
-    #   - ./env
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
+    volumes:
+      - db:/var/lib/mongo/data
   
   mongo-express:
     image: mongo-express
     restart: always
     ports:
       - ${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}
-    # env_file:
-    #   - ./env
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
@@ -45,11 +43,11 @@ services:
     restart: always
     ports:
       - ${REDIS_PORT}:${REDIS_PORT}
-    # env_file:
-    #   - ./env
-    command: redis-server --save 20 1 --loglevel warning --requirepass pwd
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
     volumes: 
       - cache:/data
 volumes:
+  db:
+    driver: local
   cache:
     driver: local
